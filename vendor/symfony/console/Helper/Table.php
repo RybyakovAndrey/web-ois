@@ -78,7 +78,7 @@ class Table
     private $columnStyles = [];
 
     /**
-     * User set column widths.
+     * Users set column widths.
      *
      * @var array
      */

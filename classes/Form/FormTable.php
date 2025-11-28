@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: ilyagorodeckiy
+ * Users: ilyagorodeckiy
  * Date: 2019-03-12
  * Time: 12:33
  */
