@@ -30,6 +30,4 @@ class Tasks
             'items'   => $result,
         ];
     }
-
-
 }
