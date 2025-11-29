@@ -35,7 +35,7 @@ class Submissions
         $result = Entity::getInstance()->getList(Constants::HLBLOCK_SUBMISSIONS, $params);
 
         return [
-            'success' => true,
+            'status' => 'ok',
             'items' => $result
         ];
     }

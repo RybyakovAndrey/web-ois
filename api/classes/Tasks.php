@@ -26,7 +26,7 @@ class Tasks
         $result = Entity::getInstance()->getList(Constants::HLBLOCK_TASKS, $params);
 
         return [
-            'success' => true,
+            'status' => 'ok',
             'items'   => $result,
         ];
     }

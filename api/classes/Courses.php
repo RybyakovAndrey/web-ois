@@ -49,7 +49,7 @@ class Courses
             ]);
             
             return [
-                'status' => 'success',
+                'status' => 'ok',
                 'message' => 'Студент успешно записан на курс',
                 'id' => $id
             ];
@@ -61,7 +61,7 @@ class Courses
         }
     }
 
-    public static function getByStudentId($aRequest) {
+    public static function getCoursesByStudentId($aRequest) {
         $studentId = intval($aRequest['studentId'] ?? 0);
 
         if ($studentId <= 0) {
@@ -104,6 +104,47 @@ class Courses
         return [
             'status' => 'ok',
             'items' => $courses,
+        ];
+    }
+
+    public static function getAvailableCourseByStudentId($aRequest) {
+
+        $studentId = intval($aRequest['studentId'] ?? 0);
+
+        if ($studentId <= 0) {
+            return [
+                'status' => 'error',
+                'message' => 'Некорректное значение студента'
+            ];
+        }
+
+        if (!RolePermissions::isStudent($studentId)) {
+            return [
+                'status' => 'error',
+                'message' => 'Вы не студент, поэтому не можете просматривать доступные курсы'
+            ];
+        }
+
+        $enrollments = Entity::getInstance()->getList(Constants::HLBLOCK_ENROLL_COURSES, [
+            'filter' => ['=UF_STUDENT_ID' => $studentId]
+        ]);
+
+        $enrolledCourseIds = array_column($enrollments, 'UF_COURSE_ID');
+
+        $filter = [];
+
+        if (!empty($enrolledCourseIds)) {
+            $filter['!@ID'] = $enrolledCourseIds;
+        }
+
+        $availableCourses = Entity::getInstance()->getList(Constants::HLBLOCK_COURSES, [
+            'filter' => $filter,
+            'order' => ['ID' => 'ASC']
+        ]);
+
+        return [
+            'status' => 'ok',
+            'items' => $availableCourses,
         ];
 
     }

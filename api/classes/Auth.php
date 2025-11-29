@@ -39,7 +39,7 @@ class Auth
 
         if ($authResult['TYPE'] === 'ERROR') {
             return [
-                'success' => false,
+                'status' => 'error',
                 'message' => $authResult['MESSAGE'],
             ];
         }
@@ -50,7 +50,7 @@ class Auth
         $role = self::getRole($userId)['role'];
 
         return [
-            'success' => true,
+            'status' => 'ok',
             'userId' => $userId,
             'role' => $role,
             'message' => 'Авторизация прошла успешно',
@@ -76,7 +76,7 @@ class Auth
         }
 
         return [
-            'success' => true,
+            'status' => "ok",
             'role' => $role,
         ];
     }
