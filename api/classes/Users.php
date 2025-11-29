@@ -2,6 +2,7 @@
 
 namespace Legacy\API;
 
+use Legacy\General\RolePermissions;
 use Legacy\HighLoadBlock\Entity;
 use Legacy\General\Constants;
 
@@ -9,6 +10,13 @@ class Users
 {
     public static function get()
     {
+        if (!RolePermissions::isAdmin()) {
+            return [
+                'status' => 'error',
+                'message' => 'Недостаточно прав для выполнения функции'
+            ];
+        }
+
         $users = [];
         $rsUsers = \CUser::GetList(
             ($by = "ID"),
