@@ -46,7 +46,7 @@ class Submissions
         }
 
         $params = [
-            'UF_GRADED_AT' => new DateTime(),
+            'UF_GRADED_AT' => new \Bitrix\Main\Type\DateTime(),
             'UF_COMMENT' => $comment,
         ];
 

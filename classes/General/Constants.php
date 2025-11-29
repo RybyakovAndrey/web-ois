@@ -18,6 +18,9 @@ class Constants
 	/** АКЦИИ */
 	public const IB_PROMOTIONS = '5';
 
+	/** ТЕСТОВЫЙ ИНФОБЛОК */
+	public const IB_TEST_INFOBLOCK = '6';
+
 	/** СПЕЦИАЛЬНОЕ ПРЕДЛОЖЕНИЕ */
 	public const IB_PROP_FURNITURE_PRODUCTS_S1_SPECIALOFFER = '1';
 
@@ -57,6 +60,9 @@ class Constants
 	/** ДЕТАЛЬНЫЙ КОНТЕНТ */
 	public const IB_PROP_PROMOTIONS_DETAIL_CONTENT = '13';
 
+	/** НАЗВАНИЕ ТЕСТОВОГО БЛОКА */
+	public const IB_PROP_TEST_INFOBLOCK_NAME = '14';
+
 	/** ПОЛЬЗОВАТЕЛИ, ИМЕЮЩИЕ ПРАВО ГОЛОСОВАТЬ ЗА РЕЙТИНГ */
 	public const GROUP_RATING_VOTE = '3';
 
@@ -68,4 +74,13 @@ class Constants
 
 	/** PROMOTIONS */
 	public const HLBLOCK_PROMOTIONS = '1';
+
+	/** COURSES */
+	public const HLBLOCK_COURSES = '3';
+
+	/** TASKS */
+	public const HLBLOCK_TASKS = '4';
+
+	/** SUBMISSIONS */
+	public const HLBLOCK_SUBMISSIONS = '5';
 }
