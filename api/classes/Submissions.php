@@ -5,11 +5,19 @@ namespace Legacy\API;
 use Legacy\General\Constants;
 use Legacy\HighLoadBlock\Entity;
 use Nette\Utils\DateTime;
+use Legacy\General\RolePermissions;
 
 class Submissions
 {
     public static function getByTaskId($aRequest)
     {
+        if (!(RolePermissions::isTeacher() or RolePermissions::isAdmin())) {
+            return [
+                'status' => 'error',
+                'message' => 'Недостаточно прав для выполнения функции'
+            ];
+        }
+
         $id = intval($aRequest['id']);
 
         if ($id <= 0) {
@@ -34,6 +42,13 @@ class Submissions
 
     public static function gradeSubmission($aRequest)
     {
+        if (!(RolePermissions::isTeacher() or RolePermissions::isAdmin())) {
+            return [
+                'status' => 'error',
+                'message' => 'Недостаточно прав для выполнения функции'
+            ];
+        }
+
         $id = intval($aRequest['id']);
         $grade = $aRequest['grade'] ?? null;
         $comment = $aRequest['comment'] ?? '';

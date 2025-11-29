@@ -13,7 +13,7 @@ class Users
         $rsUsers = \CUser::GetList(
             ($by = "ID"),
             ($order = "ASC"),
-            [] // фильтр, пустой — все пользователи
+            []
         );
 
         while ($arUser = $rsUsers->Fetch()) {
