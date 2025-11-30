@@ -96,4 +96,60 @@ class Submissions
             ];
         }
     }
+    public static function submitTask($aRequest)
+    {
+        if (!RolePermissions::isStudent()) {
+            return [
+                'status' => 'error',
+                'message' => 'Недостаточно прав для выполнения функции'
+            ];
+        }
+
+        $studentId = intval($aRequest['studentId'] ?? null);
+        $taskId = intval($aRequest['taskId'] ?? 0);
+        $solutionText = $aRequest['solutionText'] ?? '';
+
+        if ($studentId <= 0 || $taskId <= 0) {
+            return [
+                'status' => 'error',
+                'message' => 'Некорректный studentId или taskId'
+            ];
+        }
+
+        $existing = Entity::getInstance()->getList(Constants::HLBLOCK_SUBMISSIONS, [
+            'filter' => [
+                '=UF_STUDENT_ID' => $studentId,
+                '=UF_TASK_ID' => $taskId
+            ]
+        ]);
+
+        if (!empty($existing)) {
+            return [
+                'status' => 'error',
+                'message' => 'Решение уже было отправлено'
+            ];
+        }
+
+        try {
+            $id = Entity::getInstance()->add(Constants::HLBLOCK_SUBMISSIONS, [
+                'UF_STUDENT_ID' => $studentId,
+                'UF_TASK_ID' => $taskId,
+                'UF_SOLUTION_TEXT' => $solutionText,
+                'UF_SUBMITTED_AT' => new \Bitrix\Main\Type\DateTime()
+            ]);
+
+            return [
+                'status' => 'ok',
+                'message' => 'Решение успешно отправлено',
+                'id' => $id
+            ];
+        } catch (\Exception $e) {
+            return [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ];
+        }
+
+    }
+
 }
