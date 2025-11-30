@@ -62,7 +62,7 @@ class Courses
     }
 
     public static function getCoursesByStudentId($aRequest) {
-        $studentId = intval($aRequest['studentId'] ?? 0);
+        $studentId = intval($aRequest->get('studentId'));
 
         if ($studentId <= 0) {
             return [
@@ -146,7 +146,46 @@ class Courses
             'status' => 'ok',
             'items' => $availableCourses,
         ];
-
     }
 
+    public static function getCoursesByTeacherId($aRequest)
+    {
+        $teacherId = intval($aRequest['teacherId'] ?? 0);
+
+        if ($teacherId <= 0) {
+            return [
+                'status' => 'error',
+                'message' => 'Некорректное значение преподавателя'
+            ];
+        }
+
+        if (!RolePermissions::isTeacher($teacherId)) {
+            return [
+                'status' => 'error',
+                'message' => 'Пользователь не является преподавателем'
+            ];
+        }
+
+        $courses = Entity::getInstance()->getList(Constants::HLBLOCK_COURSES, [
+            'filter' => [
+                '=UF_TEACHER_ID' => $teacherId
+            ],
+            'order' => [
+                'ID' => 'ASC'
+            ]
+        ]);
+
+        if (empty($courses)) {
+            return [
+                'status' => 'ok',
+                'items' => [],
+                'message' => 'Преподаватель пока не ведёт ни одного курса'
+            ];
+        }
+
+        return [
+            'status' => 'ok',
+            'items' => $courses
+        ];
+    }
 }
