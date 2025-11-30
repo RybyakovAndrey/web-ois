@@ -149,6 +149,67 @@ class Submissions
                 'message' => $e->getMessage()
             ];
         }
+    }
+
+    public static function getCourseSubmissionsByStudent($aRequest)
+    {
+        $courseId = intval($aRequest['courseId'] ?? 0);
+        $studentId = intval($aRequest['studentId'] ?? 0);
+
+        if ($courseId <= 0 || $studentId <= 0) {
+            return [
+                'status' => 'error',
+                'message' => 'Некорректный courseId или studentId'
+            ];
+        }
+
+        $tasks = Entity::getInstance()->getList(Constants::HLBLOCK_TASKS, [
+            'filter' => ['=UF_COURSE_ID' => $courseId],
+            'order' => ['ID' => 'ASC']
+        ]) ?? [];
+
+        if (empty($tasks)) {
+            return [
+                'status' => 'ok',
+                'message' => 'Задания для курса отсутствуют',
+                'items' => []
+            ];
+        }
+
+        $taskIds = array_column($tasks, 'ID');
+
+        $submissions = Entity::getInstance()->getList(Constants::HLBLOCK_SUBMISSIONS, [
+            'filter' => [
+                '=UF_STUDENT_ID' => $studentId,
+                'UF_TASK_ID' => $taskIds
+            ]
+        ]) ?? [];
+
+        $subsByTask = [];
+        foreach ($submissions as $sub) {
+            $subsByTask[$sub['UF_TASK_ID']] = $sub;
+        }
+
+        foreach ($tasks as &$task) {
+            $taskId = $task['ID'];
+            if (isset($subsByTask[$taskId])) {
+                $sub = $subsByTask[$taskId];
+                $task['submission'] = [
+                    'solutionText' => $sub['UF_SOLUTION_TEXT'] ?? '',
+                    'grade' => $sub['UF_GRADE'] ?? null,
+                    'comment' => $sub['UF_COMMENT'] ?? '',
+                    'submittedAt' => $sub['UF_SUBMITTED_AT'] ?? null,
+                    'gradedAt' => $sub['UF_GRADED_AT'] ?? null
+                ];
+            } else {
+                $task['submission'] = null;
+            }
+        }
+
+        return [
+            'status' => 'ok',
+            'items' => $tasks
+        ];
 
     }
 
