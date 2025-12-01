@@ -19,9 +19,8 @@ namespace Legacy\API {
     {
         public static function getByCourseId($aRequest)
         {
-            global $USER;
-            $userId = $USER->GetID();
             $courseId = intval($aRequest['courseId'] ?? 0);
+            $userId = $aRequest['userId'] ?? 0;
 
             if ($courseId <= 0) {
                 return [
