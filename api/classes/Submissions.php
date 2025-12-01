@@ -107,7 +107,8 @@ class Submissions
     }
     public static function submitTask($aRequest)
     {
-        if (!RolePermissions::isStudent()) {
+        $studentId = intval($aRequest['studentId']);
+        if (!RolePermissions::isStudent($studentId)) {
             return [
                 'status' => 'error',
                 'message' => 'Недостаточно прав для выполнения функции'
