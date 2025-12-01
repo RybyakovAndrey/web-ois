@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="de458f0f-1ee9-4f2c-982e-962772fb8ec0" name="bitrix-lms">
-        <fileTransfer accessType="SFTP" host="192.168.0.100" port="22" sshConfigId="c6329e9b-62d5-48bd-ae29-c418a450fad4" sshConfig="root@192.168.0.100:22 password">
+        <fileTransfer accessType="SFTP" host="192.168.0.104" port="22" sshConfigId="c6329e9b-62d5-48bd-ae29-c418a450fad4" sshConfig="root@192.168.0.104:22 password">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

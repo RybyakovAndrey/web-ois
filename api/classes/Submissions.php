@@ -1,6 +1,15 @@
 <?php
+namespace {
+    header("Access-Control-Allow-Origin: http://localhost:4200");
+    header("Access-Control-Allow-Credentials: true");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+    header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 
-namespace Legacy\API;
+    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') exit;
+
+    require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_before.php");
+}
+namespace Legacy\API {
 
 use Legacy\General\Constants;
 use Legacy\HighLoadBlock\Entity;
@@ -213,4 +222,5 @@ class Submissions
 
     }
 
+}
 }
