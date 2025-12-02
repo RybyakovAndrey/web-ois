@@ -5,6 +5,9 @@
       <sourceFolder url="file://$MODULE_DIR$/local/api/classes" isTestSource="false" packagePrefix="Legacy\API\" />
       <sourceFolder url="file://$MODULE_DIR$/local/classes" isTestSource="false" packagePrefix="Legacy\" />
       <sourceFolder url="file://$MODULE_DIR$/local/console" isTestSource="false" packagePrefix="Console\" />
+      <sourceFolder url="file://$MODULE_DIR$/api/classes" isTestSource="false" packagePrefix="Legacy\API\" />
+      <sourceFolder url="file://$MODULE_DIR$/classes" isTestSource="false" packagePrefix="Legacy\" />
+      <sourceFolder url="file://$MODULE_DIR$/console" isTestSource="false" packagePrefix="Console\" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

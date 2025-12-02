@@ -107,7 +107,9 @@ class Submissions
     }
     public static function submitTask($aRequest)
     {
+
         $studentId = intval($aRequest['studentId']);
+
         if (!RolePermissions::isStudent($studentId)) {
             return [
                 'status' => 'error',
@@ -123,20 +125,6 @@ class Submissions
             return [
                 'status' => 'error',
                 'message' => 'Некорректный studentId или taskId'
-            ];
-        }
-
-        $existing = Entity::getInstance()->getList(Constants::HLBLOCK_SUBMISSIONS, [
-            'filter' => [
-                '=UF_STUDENT_ID' => $studentId,
-                '=UF_TASK_ID' => $taskId
-            ]
-        ]);
-
-        if (!empty($existing)) {
-            return [
-                'status' => 'error',
-                'message' => 'Решение уже было отправлено'
             ];
         }
 
