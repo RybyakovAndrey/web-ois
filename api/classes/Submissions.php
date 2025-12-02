@@ -129,18 +129,42 @@ class Submissions
         }
 
         try {
-            $id = Entity::getInstance()->add(Constants::HLBLOCK_SUBMISSIONS, [
+            $entity = Entity::getInstance();
+
+            $existing = $entity->getList(Constants::HLBLOCK_SUBMISSIONS, [
+                'filter' => [
+                    '=UF_STUDENT_ID' => $studentId,
+                    '=UF_TASK_ID' => $taskId
+                ],
+                'limit' => 1
+            ]);
+
+            $data = [
                 'UF_STUDENT_ID' => $studentId,
                 'UF_TASK_ID' => $taskId,
                 'UF_SOLUTION_TEXT' => $solutionText,
                 'UF_SUBMITTED_AT' => new \Bitrix\Main\Type\DateTime()
-            ]);
-
-            return [
-                'status' => 'ok',
-                'message' => 'Решение успешно отправлено',
-                'id' => $id
             ];
+
+            if (!empty($existing)) {
+                $id = $existing[0]['ID'];
+
+                $entity->update(Constants::HLBLOCK_SUBMISSIONS, $id, $data);
+
+                return [
+                    'status' => 'ok',
+                    'message' => 'Решение обновлено',
+                    'id' => $id
+                ];
+            } else {
+                $id = $entity->add(Constants::HLBLOCK_SUBMISSIONS, $data);
+
+                return [
+                    'status' => 'ok',
+                    'message' => 'Решение успешно отправлено',
+                    'id' => $id
+                ];
+            }
         } catch (\Exception $e) {
             return [
                 'status' => 'error',
