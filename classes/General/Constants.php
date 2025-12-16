@@ -86,4 +86,7 @@ class Constants
 
     /** ENROLLCOURSES */
     public const HLBLOCK_ENROLL_COURSES = '6';
+
+    /** LECTURES */
+    public const HLBLOCK_LECTURES = '7';
 }
